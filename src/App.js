@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import Navbar from "./components/Navbar";
+import SearchComp from "./components/SearchComp";
+import SearchHistory from "./components/SearchHistory";
+import store from "./components/store";
+import { Provider } from "react-redux";
 
 function App() {
+  const [showSearchComp, setShowSearchComp] = useState(true);
+  const [showSearchHistory, setShowSearchHistory] = useState(false);
+
+  const toggleComponents = () => {
+    setShowSearchComp(!showSearchComp);
+    setShowSearchHistory(!showSearchHistory);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <Navbar onHistoryClick={toggleComponents} />
+      {showSearchComp && <SearchComp />}
+      {showSearchHistory && <SearchHistory />}
+    </Provider>
   );
 }
 
